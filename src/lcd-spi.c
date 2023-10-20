@@ -224,7 +224,7 @@ initialize_display(const struct tft_command cmds[])
 }
 
 /* prototype for test_image */
-static void test_image(void);
+static void test_image(void) __attribute__((unused));
 
 /*
  * Interesting questions:
@@ -334,17 +334,7 @@ lcd_spi_init(void)
 	spi_enable_ss_output(LCD_SPI);
 	spi_enable(LCD_SPI);
 
-	/* Set up the display */
-	console_puts("Initialize the display.\n");
 	initialize_display(initialization);
-
-	/* create a test image */
-	console_puts("Generating Test Image\n");
-	test_image();
-
-	/* display it on the LCD */
-	console_puts("And ... voila\n");
-	lcd_show_frame();
 }
 
 /*
