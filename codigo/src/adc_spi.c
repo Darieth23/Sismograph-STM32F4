@@ -173,6 +173,7 @@ static uint16_t read_adc_naiive(uint8_t channel)
 	return reg16;
 }
 static int adc_update(void){
-	int bat = read_adc_naiive(1)*9/4095;
+	float bat = read_adc_naiive(1)*3.6/4095.0;
+	bat = (bat/3.6)*100;
 	return bat;
 }

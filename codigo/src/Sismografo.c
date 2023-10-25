@@ -94,12 +94,12 @@ int main(void)
 		}
 
 		battery = adc_update();
-		if(battery <= 7){
-			batt_alarm = 0;
+		if(battery <= 15.0){
+			batt_alarm = 1;
 			gpio_toggle(GPIOG, GPIO14);
 		}
 		else{
-			batt_alarm = 1;
+			batt_alarm = 0;
 			gpio_clear(GPIOG, GPIO14);
 		}
 
