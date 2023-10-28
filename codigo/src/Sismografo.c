@@ -92,17 +92,6 @@ int main(void)
 				com_en = 1;
 			}
 		}
-
-		battery = adc_update();
-		if(battery <= 15.0){
-			batt_alarm = 1;
-			gpio_toggle(GPIOG, GPIO14);
-		}
-		else{
-			batt_alarm = 0;
-			gpio_clear(GPIOG, GPIO14);
-		}
-
 		gpio_clear(GPIOC, GPIO1);
 		spi_send(SPI5, GYR_OUT_X_L | GYR_RNW);
 		spi_read(SPI5);
@@ -163,18 +152,26 @@ int main(void)
 		gfx_setCursor(75, 144);
 		gfx_puts(lcd_out);
 		gfx_setTextSize(2);
-		gfx_setCursor(20, 260);
-		gfx_puts("% Bateria: ");
-		gfx_setCursor(175, 260);
-		sprintf(int_to_str, "%d", battery);
-		gfx_puts(int_to_str);
-		
+		gfx_setCursor(50, 260);
+		gfx_puts("Al Bat: ");
+		gfx_setCursor(157, 260);
+		battery = adc_update();
+		battery = (battery/3.6)*0.18;
+		if(battery < 3){
+			batt_alarm = 1;
+			gpio_toggle(GPIOG, GPIO14);
+			gfx_puts("ON");
+		}
+		else{
+			batt_alarm = 0;
+			gpio_clear(GPIOG, GPIO14);
+			gfx_puts("OFF");
+		}
 		if(com_en){
 	    	print_decimal_xyz(gyr_x); console_puts(",");
         	print_decimal_xyz(gyr_y); console_puts(",");
         	print_decimal_xyz(gyr_z); console_puts(",");
-			print_decimal_xyz(batt_alarm); console_puts(",");
-			print_decimal_xyz(battery); console_puts("\n");
+			print_decimal_xyz(batt_alarm); console_puts("\n");
 			gpio_toggle(GPIOG, GPIO13);
 			gfx_setCursor(40, 220);
 			gfx_puts("Com Ser: ");

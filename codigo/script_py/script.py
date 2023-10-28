@@ -42,7 +42,6 @@ while True:
     else:
         alarm = "No"
     dictionary["Battery Low"] = alarm
-    dictionary["Battery Level"] = data_captured[4]
     output = json.dumps(dictionary)
     print(output)
     client.publish(topic, output)
